@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator Modern 💻</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #1d2671, #c33764);
+        font-family: "Poppins", sans-serif;
+        color: white;
+      }
+
+      /* Marquee di atas */
+      .welcome {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 0;
+        font-size: 1.1em;
+        font-weight: 500;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        margin-bottom: 20px;
+      }
+
+      .calculator {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        width: 300px;
+      }
+
+      .display {
+        margin-bottom: 20px;
+      }
+
+      #result {
+        width: 100%;
+        height: 60px;
+        border: none;
+        background: #111;
+        color: white;
+        font-size: 2em;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+      }
+
+      button {
+        width: 100%;
+        padding: 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2em;
+        background-color: #f0f0f0;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #ddd;
+        transform: translateY(-5px);
+      }
+
+      button:active {
+        background-color: #ccc;
+        transform: translateY(0px);
+      }
+
+      .equals {
+        background-color: #ff914d;
+        color: white;
+      }
+
+      .equals:hover {
+        background-color: #ff773d;
+      }
+
+      .zero {
+        grid-column: span 2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🔥 Pesan berjalan (marquee) -->
+    <div class="welcome">
+      <marquee behavior="scroll" direction="left" scrollamount="6">
+        💬 Silahkan lakukan operasi matematika pakai kalkulator ini — baik itu
+        menambahkan ➕, mengurangi ➖, mengalikan ✖️, ataupun membagikan ➗ —
+        selamat berhitung dan semoga hasilnya manis kayak kamu 🤣 😂
+      </marquee>
+    </div>
+
+    <div class="calculator">
+      <div class="display">
+        <input type="text" id="result" disabled />
+      </div>
+      <div class="buttons">
+        <button onclick="clearScreen()">C</button>
+        <button onclick="deleteLast()">Del</button>
+        <button onclick="appendOperator('%')">%</button>
+        <button onclick="appendOperator('/')">/</button>
+        <button onclick="appendNumber(7)">7</button>
+        <button onclick="appendNumber(8)">8</button>
+        <button onclick="appendNumber(9)">9</button>
+        <button onclick="appendOperator('*')">*</button>
+        <button onclick="appendNumber(4)">4</button>
+        <button onclick="appendNumber(5)">5</button>
+        <button onclick="appendNumber(6)">6</button>
+        <button onclick="appendOperator('-')">-</button>
+        <button onclick="appendNumber(1)">1</button>
+        <button onclick="appendNumber(2)">2</button>
+        <button onclick="appendNumber(3)">3</button>
+        <button onclick="appendOperator('+')">+</button>
+        <button onclick="appendNumber(0)" class="zero">0</button>
+        <button onclick="appendOperator('.')">.</button>
+        <button onclick="calculate()" class="equals">=</button>
+      </div>
+    </div>
+
+    <script>
+      let resultScreen = document.getElementById("result");
+
+      // 💬 Kumpulan kata lucu, manis, dan ngeselin 😝
+      const messages = [
+        "I Miss You 😘",
+        "Lagi ngitung aku ya? 😏",
+        "Ciee fokus 😜",
+        "Kamu error di hatiku 😭",
+        "Senyum dikit dong 😚",
+        "Awas jatuh cinta lagi 😎",
+        "Ngitung terus, kapan jadian? 🤭",
+        "Kamu tuh hasil terbaik 🫶",
+        "Dikurangin dikit aja baper 😤",
+        "Jangan sok pintar, aku lebih lucu 😝",
+        "Klik lagi, biar makin cinta 😘",
+        "Kamu bikin kalkulatorku panas 🔥",
+        "Udah ah, aku baper 😳",
+        "Stop ngitung, liatin aku aja 😍",
+        "Kamu tuh konstan di hatiku 💞",
+        "Nih hasilnya: AKU + KAMU ❤️",
+        "Heh! Fokusnya ke aku 😤",
+        "Aduh, kamu lucu banget 😆",
+        "Salah rumus nih, cinta kebanyakan 😅",
+      ];
+
+      function clearScreen() {
+        resultScreen.value = "";
+      }
+
+      function deleteLast() {
+        resultScreen.value = resultScreen.value.slice(0, -1);
+      }
+
+      function appendNumber(number) {
+        resultScreen.value += number;
+      }
+
+      function appendOperator(operator) {
+        if (resultScreen.value === "") return;
+        resultScreen.value += operator;
+      }
+
+      function calculate() {
+        try {
+          // Lakukan kalkulasi tapi abaikan hasilnya, biar fokus ke pesan lucu 🤣
+          eval(resultScreen.value);
+
+          // Pilih pesan random
+          const randomMsg =
+            messages[Math.floor(Math.random() * messages.length)];
+          resultScreen.value = randomMsg;
+        } catch (error) {
+          resultScreen.value = "Error 😭";
+        }
+      }
+    </script>
+  </body>
+</html>
